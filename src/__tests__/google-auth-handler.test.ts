@@ -59,7 +59,7 @@ describe('Google Auth Handler', () => {
 
     // Assertions
     expect(response.status).toBe(302);
-    expect(response.headers.get('Location')).toContain('vscode://test/auth/google/callback');
+    expect(response.headers.get('Location')).toContain('vscode://test/auth/clerk/callback');
     expect(response.headers.get('Location')).toContain('state=test-state');
     expect(response.headers.get('Location')).toContain('code=test-code');
     expect(response.headers.get('Location')).toContain('auth=success');
