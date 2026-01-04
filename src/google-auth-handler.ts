@@ -70,7 +70,7 @@ export async function handleGoogleAuthCallback(request: Request, env: Env): Prom
 
     // Construct redirect URL back to VSCode
     const baseRedirect = authRedirect.replace(/\/?$/, '');
-    const redirectUrl = new URL(`${baseRedirect}/auth/google/callback`);
+    const redirectUrl = new URL(`${baseRedirect}/auth/clerk/callback`);
     redirectUrl.searchParams.set('state', state);
     redirectUrl.searchParams.set('code', code);
     redirectUrl.searchParams.set('userId', userId);
@@ -84,9 +84,10 @@ export async function handleGoogleAuthCallback(request: Request, env: Env): Prom
         'Location': redirectUrl.toString()
       }
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Authentication error:', error);
-    return new Response(`Authentication failed: ${error.message}`, {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return new Response(`Authentication failed: ${errorMessage}`, {
       status: 500,
       headers: { 'Content-Type': 'text/plain' }
     });
