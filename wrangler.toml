@@ -11,7 +11,7 @@ name = "roo-code-api-prod"
 [env.production.vars]
 ENVIRONMENT = "production"
 OAUTH_CLIENT_ID = "Y614615879012-qn152568j0bmlg7cif4fvfcfdmrbd23f.apps.googleusercontent.com"
-OAUTH_CLIENT_SECRET = "YOUR_OAUTH_CLIENT_SECRET_HERE"
+OAUTH_CLIENT_SECRET = "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"
 JWT_SECRET = "lkjilokolkjiuhygftrderfgtyhjunbv"
 
 [[env.production.d1_databases]]
