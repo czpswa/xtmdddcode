@@ -1,0 +1,19 @@
+name = "roo-code-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[vars]
+ENVIRONMENT = "development"
+
+[env.production]
+name = "roo-code-api-prod"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+OAUTH_CLIENT_SECRET = "YOUR_OAUTH_CLIENT_SECRET_HERE"
+JWT_SECRET = "YOUR_JWT_SECRET_HERE_AT_LEAST_32_CHARACTERS"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "roo-code-users"
+database_id = "roo-code-users-db-id"

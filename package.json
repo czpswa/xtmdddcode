@@ -1,0 +1,43 @@
+{
+  "name": "roo-code-cloudflare",
+  "version": "1.0.0",
+  "description": "Roo-Code Cloudflare Backend Implementation",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy:dev": "wrangler deploy --env development",
+    "deploy:prod": "wrangler deploy --env production",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "login": "wrangler login",
+    "whoami": "wrangler whoami",
+    "d1:create": "wrangler d1 create roo-code-users",
+    "d1:migrate": "wrangler d1 execute roo-code-users --file=./migrations/0001_create_users_table.sql"
+  },
+  "dependencies": {
+    "@node-rs/bcrypt": "^1.9.0",
+    "dotenv": "^17.2.3",
+    "drizzle-kit": "^0.20.0",
+    "drizzle-orm": "^0.30.0",
+    "hono": "^4.0.0",
+    "jose": "^4.14.0",
+    "limiter": "^2.1.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "wrangler": "^4.54.0"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "roo-code",
+    "backend",
+    "serverless"
+  ],
+  "author": "Roo-Code Team",
+  "license": "MIT"
+}
