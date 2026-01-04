@@ -3,6 +3,7 @@ import { handleGoogleAuthCallback } from './google-auth-handler';
 
 export interface CloudflareEnv extends Env {
   DB: any; // D1Database type available in Workers
+  OAUTH_CLIENT_ID: string;
   OAUTH_CLIENT_SECRET: string;
 }
 

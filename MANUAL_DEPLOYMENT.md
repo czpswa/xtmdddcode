@@ -9,56 +9,57 @@
 
 ## 部署步骤
 
-### 1. 配置环境变量
+### 1. 创建 D1 数据库
 
-在 `cloudflarecode` 目录中创建 `.env` 文件：
+在部署 Worker 之前，需要先创建 D1 数据库：
 
 ```bash
-# Cloudflare 环境配置
-CLOUDFLARE_ACCOUNT_ID=your_account_id_here
-CLOUDFLARE_ZONE_ID=your_zone_id_here
+# 创建 D1 数据库
+wrangler d1 create roo-code-users
 
-# Google OAuth 配置
-GOOGLE_CLIENT_ID=your_google_client_id_here
-GOOGLE_CLIENT_SECRET=your_google_client_secret_here
-CALLBACK_URL=https://your-worker.your-subdomain.workers.dev/callback
-
-# Cloudflare D1 数据库配置
-D1_DATABASE_ID=your_d1_database_id_here
+# 记录返回的数据库 ID，稍后会用到
 ```
 
-### 2. 部署到 Cloudflare
+### 2. 应用数据库迁移
+
+```bash
+# 应用数据库迁移
+wrangler d1 execute roo-code-users --file=./migrations/0001_create_users_table.sql
+```
+
+### 3. 创建 Google OAuth 凭据
+
+1. 访问 [Google Cloud Console](https://console.cloud.google.com/)
+2. 创建一个新项目或选择现有项目
+3. 启用 Google+ API
+4. 在 "Credentials" 页面创建 OAuth 2.0 Client ID
+5. 设置授权回调 URL 为：`https://your-worker.your-subdomain.workers.dev/callback`
+6. 记录 Client ID 和 Client Secret
+
+### 4. 生成 JWT 密钥
+
+生成一个至少 32 个字符的随机字符串作为 JWT 密钥。
+
+### 5. 更新 wrangler.toml 配置
+
+将 `wrangler.toml` 文件中的占位符替换为实际值：
+
+```toml
+# 在 [[env.production.d1_databases]] 部分
+database_id = "YOUR_ACTUAL_D1_DATABASE_ID"
+
+# 在 [env.production.vars] 部分
+OAUTH_CLIENT_ID = "YOUR_GOOGLE_OAUTH_CLIENT_ID"
+OAUTH_CLIENT_SECRET = "YOUR_GOOGLE_OAUTH_CLIENT_SECRET"
+JWT_SECRET = "YOUR_RANDOM_JWT_SECRET_AT_LEAST_32_CHARACTERS"
+```
+
+### 6. 部署到 Cloudflare
 
 ```bash
 cd cloudflarecode
 wrangler deploy
 ```
-
-### 3. 配置 D1 数据库
-
-如果尚未创建 D1 数据库，请按以下步骤操作：
-
-1. 创建 D1 数据库：
-   ```bash
-   wrangler d1 create roo-code-users
-   ```
-
-2. 应用数据库迁移：
-   ```bash
-   wrangler d1 migrations apply roo-code-users
-   ```
-
-### 4. 配置环境变量
-
-在 Cloudflare Dashboard 中设置环境变量：
-1. 进入 Workers & Pages
-2. 选择您的 Worker
-3. 进入 Settings -> Variables
-4. 添加以下环境变量：
-   - GOOGLE_CLIENT_ID
-   - GOOGLE_CLIENT_SECRET
-   - CALLBACK_URL
-   - D1_DATABASE_ID
 
 ## GitHub Actions 部署（可选）
 
@@ -80,6 +81,10 @@ wrangler deploy
 然后在 GitHub 仓库中设置以下 secrets：
 - `CF_API_TOKEN`: Cloudflare API token
 - `CF_ACCOUNT_ID`: Cloudflare Account ID
+- `D1_DATABASE_ID`: Cloudflare D1 Database ID
+- `OAUTH_CLIENT_ID`: Google OAuth Client ID
+- `GOOGLE_OAUTH_CLIENT_SECRET`: Google OAuth Client Secret
+- `JWT_SECRET`: JWT Secret
 
 ## 验证部署
 

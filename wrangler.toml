@@ -10,10 +10,11 @@ name = "roo-code-api-prod"
 
 [env.production.vars]
 ENVIRONMENT = "production"
+OAUTH_CLIENT_ID = "Y614615879012-qn152568j0bmlg7cif4fvfcfdmrbd23f.apps.googleusercontent.com"
 OAUTH_CLIENT_SECRET = "YOUR_OAUTH_CLIENT_SECRET_HERE"
-JWT_SECRET = "YOUR_JWT_SECRET_HERE_AT_LEAST_32_CHARACTERS"
+JWT_SECRET = "lkjilokolkjiuhygftrderfgtyhjunbv"
 
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "roo-code-users"
-database_id = "roo-code-users-db-id"
+database_id = "e0953fc3-7810-42bc-aa4f-c0b17f44d192"
