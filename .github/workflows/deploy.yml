@@ -20,7 +20,18 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npm list wrangler
+          
+      - name: Debug - List installed packages
+        run: |
+          echo "Node version:"
+          node --version
+          echo "NPM version:"
+          npm --version
+          echo "Installed packages:"
+          npm list
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
